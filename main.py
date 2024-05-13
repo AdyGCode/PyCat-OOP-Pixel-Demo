@@ -1,6 +1,11 @@
+import time
+from random import random
+
 from cat import Cat
 
 if __name__ == '__main__':
     c = Cat()
     c.show()
-    c.blink()
+    while True:
+        time.sleep(random()*5)
+        c.blink(duration=random()+0.1)

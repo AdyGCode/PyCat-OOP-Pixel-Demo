@@ -49,19 +49,19 @@ class Cat:
         o = self.colourise("orange")
         w = self.colourise("brown")
 
-        self.pixels = [
-            p, p, p, p, p, p, p, p,
-            p, p, p, o, p, p, d, p,
-            p, p, p, o, o, d, d, p,
-            d, o, p, o, g, d, g, p,
-            o, p, p, d, o, s, s, p,
-            d, o, d, s, s, o, p, p,
-            p, d, s, s, s, s, p, p,
-            p, o, k, p, p, k, p, p,
+        self.pixels = [  # Pixels
+            p, p, p, p, p, p, p, p,  # 00 - 07
+            p, p, p, o, p, p, d, p,  # 08 - 15
+            p, p, p, o, o, d, d, p,  # 16 - 23
+            d, o, p, o, g, d, g, p,  # 24 - 31
+            o, p, p, d, o, s, s, p,  # 32 - 39
+            d, o, d, s, s, o, p, p,  # 40 - 47
+            p, d, s, s, s, s, p, p,  # 48 - 55
+            p, o, k, p, p, k, p, p,  # 56 - 63
         ]
 
-        self.eyes = [29, 31]
-        self.tongue = [38]
+        self.eyes = [28, 30]
+        self.tongue = [37]
 
     def dim_display(self, dimmed=True):
         """
@@ -77,16 +77,20 @@ class Cat:
         self.sense_hat.set_pixels(self.pixels)
 
     def blink(self, blink_colour=["ORANGE", "CHARCOAL"], duration=1):
-        original = []
-        count=0
+        original_colours = []
         for eye_pixel in self.eyes:
-            original.append(self.pixels[eye_pixel])
+            original_colours.append(self.pixels[eye_pixel])
+        count = 0
         for eye_pixel in self.eyes:
-            self.pixels[eye_pixel] = blink_colour[count]
-            count+=1
-            time.sleep(duration)
+            self.pixels[eye_pixel] = self.colourise(blink_colour[count])
+            count += 1
+        self.show()
+        time.sleep(duration)
+        count = 0
         for eye_pixel in self.eyes:
-            self.pixels[eye_pixel] = original[eye_pixel]
+            self.pixels[eye_pixel] = original_colours[count]
+            count += 1
+        self.show()
 
     # Not part of the SenseHat implementation
     def colourise(self, colour_name="black"):
